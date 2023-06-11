@@ -29,13 +29,10 @@ class FetchCryptocurrencyMetadataCommand extends Command
      */
     public function handle()
     {
-        // $baseUrl = 'https://sandbox-api.coinmarketcap.com';
         $baseUrl = env('COIN_MARKET_CAP_URL', 'b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c');
         $id = $this->argument('id');
-        dump('1');
         try {
             $client = new Client();
-            dump('2');
             $url = $baseUrl . '/v2/cryptocurrency/info';
             $parameters = [
                 'id' => $id,
@@ -43,7 +40,6 @@ class FetchCryptocurrencyMetadataCommand extends Command
 
             $headers = [
                 'Accept' => '*/*',
-                // 'X-CMC_PRO_API_KEY' =>  'b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c',
                 'X-CMC_PRO_API_KEY' =>  env('COIN_MARKET_CAP_API', 'b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c'),
             ];
 
@@ -58,26 +54,10 @@ class FetchCryptocurrencyMetadataCommand extends Command
             if ($res->getStatusCode() === 200) {
                 $cryptocurrency = json_decode($res->getBody()->getContents(), true);
 
-                // Process and save the data
-
-                // $filteredResponse = new CryptoCurrencyResource($responseData);
-                // $filteredResponse = collect($responseData)->map(function ($item) {
-                //     dump('item');
-                //     dump($item);
-                //     return $item;
-                //     // return [
-                //     //     'name' => $item['name'],
-                //     //     // Add more fields as needed
-                //     // ];
-                // });
-                // dump($filteredResponse);
-                // $responseStatus = $responseData['status'];
                 $responseCurrenciesData = $cryptocurrency['data'];
-                dump($responseCurrenciesData);
-                // dump($responseCurrenciesData);
+
+                //saving to database
                 $this->save($responseCurrenciesData);
-                dump('saved');
-                $this->info('Cryptocurrency data fetched and saved successfully.');
             } else {
                 $this->error('Failed to fetch cryptocurrency data. API responded with status code: ' . $res->getStatusCode());
                 return;
@@ -90,7 +70,6 @@ class FetchCryptocurrencyMetadataCommand extends Command
     private function save($cryptoCurrencies)
     {
         foreach ($cryptoCurrencies as $cryptoCurrency) {
-            dump(json_encode($cryptoCurrency['urls']));
             try {
                 CryptoCurrencyMetadata::updateOrCreate(
                     [
@@ -110,7 +89,6 @@ class FetchCryptocurrencyMetadataCommand extends Command
                         'urls' => json_encode($cryptoCurrency['urls']),
                     ]
                 );
-                dump('success');
             } catch (\Exception $e) {
                 dump($e->getMessage());
             }

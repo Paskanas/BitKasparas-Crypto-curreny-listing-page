@@ -10,7 +10,7 @@ class CryptoCurrency extends Model
     use HasFactory;
 
     protected $fillable = [
-        'currency_id',
+        'id',
         'name',
         'symbol',
         'logo_url',
@@ -25,10 +25,17 @@ class CryptoCurrency extends Model
         'percent_change_7d',
         'market_cap',
         'market_cap_dominance',
+        'market_rank',
+        'coin_gecko_id',
     ];
 
     public function metadata()
     {
-        return $this->hasOne(CryptoCurrencyMetadata::class, 'currency_id', 'currency_id');
+        return $this->hasOne(CryptoCurrencyMetadata::class, 'currency_id', 'id');
+    }
+
+    public function coinGeckoCoins()
+    {
+        return $this->hasOne(CoinGeckoCoin::class, 'symbol', 'symbol');
     }
 }

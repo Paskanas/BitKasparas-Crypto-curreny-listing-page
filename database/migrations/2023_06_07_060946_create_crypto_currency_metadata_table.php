@@ -12,11 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('crypto_currency_metadata', function (Blueprint $table) {
-            // $table->id();
             $table->unsignedMediumInteger('currency_id');
-            $table->foreign('currency_id')->references('currency_id')->on('crypto_currencies')->onDelete('cascade');
+            $table->foreign('currency_id')->references('id')->on('crypto_currencies')->onDelete('cascade');
             $table->string('name');
-            $table->string('symbol')->primary();
+            $table->string('symbol');
             $table->string('slug');
             $table->string('description', 2048);
             $table->date('date_added');

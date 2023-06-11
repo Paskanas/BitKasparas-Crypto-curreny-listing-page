@@ -12,40 +12,37 @@ import {
     IChartApi,
     ISeriesApi,
     createChart,
-    DeepPartial,
+    WhitespaceData,
+    TimeScaleOptions,
+    SeriesOptionsCommon,
+    PriceScaleOptions,
+    CandlestickData,
+    LineData,
+    AreaData,
+    BarData,
+    HistogramData,
+    BaselineData,
+    ChartOptions,
 } from "lightweight-charts";
-import { ChartOptions } from "chart.js";
 
-const props: ChartProps = defineProps({
-    type: {
-        type: String,
-        default: "line",
-    },
-    data: {
-        type: Array as () => Array<{ time: number; value: number }>,
-        required: true,
-    },
-    autosize: {
-        default: false,
-        type: Boolean,
-    },
-    chartOptions: {
-        type: Object as () => DeepPartial<ChartOptions>,
-    },
-    seriesOptions: {
-        type: Object,
-    },
-    timeScaleOptions: {
-        type: Object,
-    },
-    priceScaleOptions: {
-        type: Object,
-    },
-    selectedTimeScale: {
-        type: String,
-        default: 1,
-    },
-});
+const props = defineProps<{
+    type: string | undefined;
+    data: (
+        | WhitespaceData
+        | CandlestickData
+        | LineData
+        | AreaData
+        | BarData
+        | HistogramData
+        | BaselineData
+    )[];
+    autosize: boolean;
+    chartOptions: ChartOptions;
+    seriesOptions: SeriesOptionsCommon;
+    timeScaleOptions: TimeScaleOptions;
+    priceScaleOptions: PriceScaleOptions;
+    selectedTimeScale: string;
+}>();
 
 // Function to get the correct series constructor name for the current series type.
 function getChartSeriesConstructorName(type: string): keyof IChartApi {
@@ -60,7 +57,7 @@ let series: ISeriesApi<
     "Line" | "Area" | "Bar" | "Candlestick" | "Histogram" | "Baseline"
 > | null = null;
 let chart: IChartApi | null = null;
-
+let timeS: TimeScaleOptions | null = null;
 const chartContainer = ref();
 
 const fitContent = () => {
@@ -68,11 +65,7 @@ const fitContent = () => {
     chart.timeScale().fitContent();
 };
 
-const getChart = () => {
-    return chart;
-};
-
-defineExpose({ fitContent, getChart });
+defineExpose({ fitContent });
 
 // Auto resizes the chart when the browser window is resized.
 const resizeHandler = () => {
@@ -81,41 +74,47 @@ const resizeHandler = () => {
     chart.resize(dimensions.width, dimensions.height);
 };
 
+const settingVisibleRange = () => {
+    if (props.selectedTimeScale === "max") {
+        chart?.timeScale().fitContent();
+    } else {
+        const currentDate = new Date().getTime() / 1000; //time in seconds
+        const from =
+            new Date().getTime() / 1000 -
+            +props.selectedTimeScale * 24 * 60 * 60; //time in seconds
+        chart?.timeScale().setVisibleRange({
+            //@ts-ignore
+            from: from,
+            //@ts-ignore
+            to: currentDate,
+        });
+    }
+};
+
 // Creates the chart series and sets the data.
 const addSeriesAndData = (props: ChartProps) => {
     const seriesConstructor = getChartSeriesConstructorName(props.type ?? "");
+
     //@ts-ignore
     series = chart[seriesConstructor](props.seriesOptions);
-    //@ts-ignore
-    series.setData(props.data);
+
+    series?.setData(props.data);
 };
 
 onMounted(() => {
     // Create the Lightweight Charts Instance using the container ref.
-    //@ts-ignore
+
     chart = createChart(chartContainer.value, props.chartOptions);
+    if (series && chart) {
+        chart.removeSeries(series);
+    }
 
     addSeriesAndData(props);
-
-    if (props.priceScaleOptions) {
-        //@ts-ignore
-        chart.priceScale().applyOptions(props.priceScaleOptions);
-    }
 
     if (props.timeScaleOptions) {
         chart.timeScale().applyOptions(props.timeScaleOptions);
     }
 
-    // const toDate = new Date(); // Current date
-    // const fromDate = new Date();
-    // fromDate.setDate(fromDate.getDate() - 7); // Subtract 7 days
-
-    // chart.timeScale().setVisibleRange({
-    //     from: "2018-06-25",
-    //     to: "2018-07-25",
-    // });
-
-    // chart.timeScale().applyOptions();
     chart.timeScale().fitContent();
 
     if (props.autosize) {
@@ -155,21 +154,13 @@ watch(
 );
 
 watch(
-    () => props.type,
-    (newType) => {
+    () => props.data,
+    () => {
         if (series && chart) {
             chart.removeSeries(series);
         }
         addSeriesAndData(props);
-    }
-);
-
-watch(
-    () => props.data,
-    (newData) => {
-        if (!series) return;
-        //@ts-ignore
-        series.setData(newData);
+        settingVisibleRange();
     }
 );
 
@@ -177,8 +168,6 @@ watch(
     () => props.chartOptions,
     (newOptions) => {
         if (!chart) return;
-
-        //@ts-ignore
         chart.applyOptions(newOptions);
     }
 );
@@ -187,7 +176,6 @@ watch(
     () => props.seriesOptions,
     (newOptions) => {
         if (!series) return;
-        //@ts-ignore
         series.applyOptions(newOptions);
     }
 );
@@ -196,7 +184,6 @@ watch(
     () => props.priceScaleOptions,
     (newOptions) => {
         if (!chart) return;
-
         //@ts-ignore
         chart.priceScale().applyOptions(newOptions);
     }
@@ -206,18 +193,11 @@ watch(
     () => props.timeScaleOptions,
     (newOptions) => {
         if (!chart) return;
-        //@ts-ignore
         chart.timeScale().applyOptions(newOptions);
     }
 );
 </script>
 
 <template>
-    <div class="lw-chart" ref="chartContainer"></div>
+    <div class="h-full" ref="chartContainer"></div>
 </template>
-
-<style scoped>
-.lw-chart {
-    height: 100%;
-}
-</style>

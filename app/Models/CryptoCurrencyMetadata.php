@@ -20,16 +20,11 @@ class CryptoCurrencyMetadata extends Model
         'tags',
         'category',
         'logo_url',
-        'urls' //ar nereiks atskiros lentos?
+        'urls'
     ];
 
     public function  cryptoCurrency()
     {
-        return $this->belongsTo(CryptoCurrency::class, 'currency_id', 'currency_id');
-    }
-
-    public function coinGeckoCoins()
-    {
-        return $this->hasOne(CoinGeckoCoin::class, 'symbol', 'symbol');
+        return $this->belongsTo(CryptoCurrency::class, 'currency_id', 'id');
     }
 }

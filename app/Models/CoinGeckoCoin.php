@@ -10,13 +10,11 @@ class CoinGeckoCoin extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'coin_id',
         'symbol',
         'name',
+        'created_at',
+        'updated_at'
     ];
-
-    public function  coinMarketCap()
-    {
-        return $this->belongsTo(CryptoCurrencyMetadata::class, 'symbol', 'symbol');
-    }
 }

@@ -12,25 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('crypto_currencies', function (Blueprint $table) {
-            // $table->id();
-            $table->unsignedMediumInteger('currency_id')->primary();
+            $table->unsignedMediumInteger('id')->primary();
             $table->string('name');
             $table->string('symbol');
-            $table->string('logo_url')->default('');
-            $table->string('slug');
-            $table->decimal('circulating_supply', 25, 7);
-            $table->decimal('total_supply', 25, 7);
-            // platform need different table if need token_address differ
-            // tags need different table if need
-            $table->decimal('price', 18, 7);
-            $table->decimal('volume_24h', 18, 7);
-            $table->decimal('volume_change_24h', 18, 7);
-            $table->decimal('percent_change_1h', 18, 7);
-            $table->decimal('percent_change_24h', 18, 7);
-            $table->decimal('percent_change_7d', 18, 7);
-            $table->decimal('market_cap', 25, 7);
-            $table->decimal('market_cap_dominance', 18, 7);
-
+            $table->string('slug')->index();
+            $table->float('circulating_supply', 25, 2);
+            $table->float('total_supply', 30, 2);
+            $table->float('price', 20, 2);
+            $table->float('volume_24h', 20, 2);
+            $table->float('volume_change_24h', 20, 2);
+            $table->float('percent_change_1h', 20, 2);
+            $table->float('percent_change_24h', 20, 2);
+            $table->float('percent_change_7d', 20, 2);
+            $table->unsignedMediumInteger('market_rank');
+            $table->float('market_cap', 20, 2);
+            $table->float('market_cap_dominance', 6, 2);
+            $table->string('coin_gecko_id')->default('')->nullable();
             $table->timestamps();
         });
     }

@@ -4,10 +4,7 @@ import { Chart, registerables } from "chart.js";
 
 Chart.register(...registerables);
 
-// const REFRESH_INTERVAL = 1000 * 1; // Refresh interval in milliseconds (e.g., 1 minute)
-
 let chartInstance: any = null;
-// let refreshTimer: any = null;
 
 const initializeChart = (chartData: [][]) => {
     const canvas = document.getElementById("chartCanvas");
@@ -64,10 +61,6 @@ const props = defineProps<{
 }>();
 
 const fetchData = async () => {
-    console.log(
-        `https://api.coingecko.com/api/v3/coins/${props.coinName}/market_chart?vs_currency=usd&days=30`
-    );
-
     const response = await fetch(
         `https://api.coingecko.com/api/v3/coins/${props.coinName}/market_chart?vs_currency=usd&days=30`
     );
@@ -79,18 +72,11 @@ const fetchData = async () => {
 onMounted(async () => {
     await nextTick();
     fetchData(); // Fetch initial data
-
-    // Set up refresh timer
-    // refreshTimer = setInterval(fetchData, REFRESH_INTERVAL);
 });
-
-// onUnmounted(() => {
-//   clearInterval(refreshTimer); // Clear the refresh timer when the component is unmounted
-// });
 </script>
 
 <template>
     <div class="h-96 bg-slate-200 rounded">
-        <canvas id="chartCanvas"></canvas>
+        <canvas id="chartCanvass"></canvas>
     </div>
 </template>

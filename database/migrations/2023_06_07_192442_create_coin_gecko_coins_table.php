@@ -12,10 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('coin_gecko_coins', function (Blueprint $table) {
-            $table->id();
             $table->string('coin_id');
-            $table->string('symbol');
-            $table->string('symbol')->references('symbol')->on('crypto_currency_metadata')->onDelete('cascade');
+            $table->string('symbol')->index();
             $table->string('name');
             $table->timestamps();
         });
