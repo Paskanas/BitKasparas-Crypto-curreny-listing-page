@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { CryptoCurrencyMetadata } from "@/types";
-
+import PriceChangePercent from "../PriceChangePercent.vue";
 const props = defineProps<{
     metadata: CryptoCurrencyMetadata;
     price: number;
