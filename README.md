@@ -8,6 +8,7 @@ BitKasparas is a cryptocurrency listing and showing single coin information appl
 - Click on a cryptocurrency to navigate to its individual coin page.
 - On the coin page, users can see the coin's price history line chart and candlestick chart.
 - Detailed information about the coin, such as market cap, circulating supply, and more, is displayed on the coin page.
+- Dark/Light theme
 
 ## Getting Started
 
@@ -66,6 +67,7 @@ Feel free to explore the cryptocurrency listings and single coin pages to view d
 
 - **Laravel:** PHP framework for the backend.
 - **Vue.js:** JavaScript framework for building the user interface.
+- **Tailwind:** CSS framework for styling.
 - **CoinMarketCap API:** External API for retrieving cryptocurrency data.
 - **CoinGecko API:** External API for retrieving cryptocurrency price historical data (used for charts, because it is free).
 
