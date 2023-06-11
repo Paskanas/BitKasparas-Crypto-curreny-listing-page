@@ -16,7 +16,7 @@ To start the BitKasparas project, follow these steps:
 
 1. Clone the repository:
 ```bash
-   git clone https://github.com/your-username/bit-kasparas.git
+   git clone https://github.com/Paskanas/BitKasparas-Crypto-curreny-listing-page.git
 ```
 2. Install the PHP dependencies using Composer:
 ```bash
