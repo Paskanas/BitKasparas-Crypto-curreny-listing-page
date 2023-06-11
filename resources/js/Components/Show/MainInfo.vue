@@ -21,7 +21,7 @@ const urls = props.metadata ? JSON.parse(props.metadata.urls) : {};
         </div>
 
         <h2 class="text-4xl font-bold mb-4">{{ metadata.name }}</h2>
-        <p class="mb-2 bg-sky-800 rounded-full px-3 py-1 ml-2">
+        <p class="mb-2 bg-sky-200 dark:bg-sky-800 rounded-full px-3 py-1 ml-2">
             {{ metadata.symbol }}
         </p>
     </div>

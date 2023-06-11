@@ -256,7 +256,7 @@ onMounted(() => {
                 to USD chart
             </h2>
             <div
-                class="flex justify-items-center p-2 px-2 my-2 bg-sky-900 rounded-xl"
+                class="flex justify-items-center p-2 px-2 my-2 bg-sky-200 dark:bg-sky-900 rounded-xl"
             >
                 <button
                     v-for="(type, index) in chartTypes"

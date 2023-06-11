@@ -70,7 +70,7 @@ onMounted(() => {
         <input
             v-model="searchQuery"
             placeholder="Search"
-            class="w-full px-4 py-2 dark:text-white border border-gray-300 dark:border-sky-500 placeholder:text-white rounded-md focus:outline-none focus:border-blue-500 dark:bg-sky-800"
+            class="w-full px-4 py-2 dark:text-white border border-sky-300 bg-sky-200 dark:border-sky-500 placeholder:text-black dark:placeholder:text-white rounded-md focus:outline-none focus:border-blue-500 dark:bg-sky-800"
             ref="searchInput"
         />
         <button
@@ -82,12 +82,12 @@ onMounted(() => {
         </button>
         <ul
             v-if="suggestions.length"
-            class="absolute z-10 w-full py-2 mt-1 text-gray-700 dark:bg-sky-950 dark:text-white bg-sky-100 border dark:border-sky-500 border-gray-300 rounded-md shadow-md"
+            class="absolute z-10 w-full py-2 mt-1 text-black dark:bg-sky-950 dark:text-white bg-sky-200 border dark:border-sky-500 border-sky-300 rounded-md shadow-md"
         >
             <li
                 v-for="suggestion in suggestions"
                 :key="suggestion.id"
-                class="px-4 py-2 cursor-pointer dark:hover:bg-sky-900"
+                class="px-4 py-2 cursor-pointer dark:hover:bg-sky-900 hover:bg-sky-300"
                 @click="navigateToCurrency(suggestion.slug)"
             >
                 {{ suggestion.name }}
