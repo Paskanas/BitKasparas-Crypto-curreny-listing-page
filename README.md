@@ -44,23 +44,29 @@ DB_DATABASE=bit_degree_app
 DB_USERNAME=root
 DB_PASSWORD=
 ```
-8. Migrate the database:
+8. Update the .env file with your API and URL credentials:
+```makefile
+COIN_MARKET_CAP_API={Your CoinmarketCap API KEY}
+COIN_MARKET_CAP_URL="https://pro-api.coinmarketcap.com"
+COINGECKO_URL="https://api.coingecko.com"
+```
+9. Migrate the database:
 ```bash
 php artisan migrate
 ```
-9. Fetch API base data to the database:
+10. Fetch API base data to the database:
 ```bash
 php artisan crypto:fetch 1 all
 ```
-10. Build the assets:
+11. Build the assets:
 ```bash
 npm run dev
 ```
-11. Start the development server:
+12. Start the development server:
 ```bash
 php artisan serve
 ```
-12. Open your web browser and visit http://localhost:8000 to access the BitKasparas application.
+13. Open your web browser and visit http://localhost:8000 to access the BitKasparas application.
 Feel free to explore the cryptocurrency listings and single coin pages to view detailed information and charts.
 
 ## Technologies Used
