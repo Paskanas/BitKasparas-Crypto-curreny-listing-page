@@ -256,18 +256,18 @@ onMounted(() => {
                 to USD chart
             </h2>
             <div
-                class="flex justify-items-center p-2 px-2 my-2 bg-sky-200 dark:bg-sky-900 rounded-xl"
+                class="flex justify-items-center p-2 px-2 my-2 bg-sky-300 dark:bg-sky-900 rounded-xl"
             >
                 <button
                     v-for="(type, index) in chartTypes"
                     :key="index"
                     @click="() => handleChangeType(type.type)"
-                    class="px-3 mx-2 dark:hover:bg-sky-800 hover:bg-sky-300"
+                    class="px-3 mx-2 dark:hover:bg-sky-800 hover:bg-sky-200"
                     :disabled="type.type == chartType"
                     :class="
                         type.type == chartType
                             ? 'bg-sky-100 dark:bg-sky-950'
-                            : 'bg-sky-200 dark:bg-sky-900'
+                            : 'bg-sky-300 dark:bg-sky-900'
                     "
                 >
                     {{ type.name }}
@@ -275,14 +275,14 @@ onMounted(() => {
             </div>
         </div>
         <div
-            class="w-full flex justify-between bg-sky-200 dark:bg-sky-800 rounded-xl px-1 mb-5"
+            class="w-full flex justify-between bg-sky-300 dark:bg-sky-800 rounded-xl px-1 mb-5"
         >
             <button
                 v-for="(scale, index) in timeScales"
                 :class="
                     scale.value == selectedTimeScale
                         ? 'bg-sky-100 dark:bg-sky-950'
-                        : 'bg-sky-200 dark:bg-sky-800'
+                        : 'bg-sky-300 dark:bg-sky-800'
                 "
                 :key="index"
                 :disabled="scale.value == selectedTimeScale"
